@@ -1,0 +1,113 @@
+<!--Card-->
+
+
+<div class="clearfix"></div>
+<!--Card header-->
+<div class="card card-cascade narrower" id="card">
+  <div class="card-body card-resize">
+    
+    <div class="row">
+      <div class="col-lg-7 col-md-7 col-sm-6 col-xs-7">
+
+        <div class="md-form" >
+          <input   placeholder="Selected date" #datepicker
+           (click)="dPicker($event)"
+          type="text" id="date-picker-example" class="form-control datepicker" required>
+       
+        </div>
+        <!--<ng-datepicker [(ngModel)]="selectDate.searchDate" name="searchDate" ></ng-datepicker>-->
+        <!--<input [(ngModel)]="selectDate.searchDate" name="searchDate" placeholder="Please Select" type="date" id="from" class="form-control inpt-calender">-->
+
+      </div>
+      <div class="col-lg-5 col-md-5 col-sm-6 col-xs-5">
+        <button class="btn btn-primary main-btn" (click)="submit()">Submit</button>
+      </div>
+     <span style="color:orangered">{{ErrorMeg}}</span>
+</div>   
+  </div>
+</div>
+<div class="booking-main">
+  <div class="Booking">
+    <!--Card-->
+    <div class="container" *ngFor="let b of Booking" class="bookings-stl">
+      <div class="card card-cascade narrower">
+        <!--Card header-->
+        <div class="view py-3 gradient-card-header info-color-dark mx-4 d-flex justify-content-between align-items-center">
+          <a href="#" data-toggle="collapse" data-parent="#accordion" href="#{{b.ROOMS[0].ROOMID}}"  class="white-text mx-3">{{b.GUESTHOUSENAME}}
+     </a>
+        </div>
+        <!--/Card header-->
+
+        <!--Card content-->
+        <div class="card-body panel-collapse collapse in " id="{{b.ROOMS[0].ROOMID}}">
+
+          <div class="card-inner">
+            <div *ngFor="let room of b.ROOMS" class="room-row">
+              <span class="room-name">{{room.ROOMNAME}} {{room.ROOMID}}</span>
+              <div class="">
+                <div class="room-details">
+                  <div class="btn-group" data-toggle="buttons">
+                    <label [ngClass]="{'btn-danger':p.STATUS=='CONFIRMED','btn-warning':p.STATUS=='PENDING','btn-success':p.STATUS==''}" class="btn" 
+                      *ngFor="let p of room.DATES">
+               <span (click)="RoomInfo(room,p)"> <input type="checkbox" > {{p.DATE|date:'MM/dd/yyyy'}}</span>
+             </label>
+                  </div>
+                </div>
+              </div>
+              <hr>
+            </div>
+          </div>
+          <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#centralModalSuccess">Book Now</button>
+
+        </div>
+        <!--/.Card content-->
+        <div></div><br>
+
+      </div>
+
+    </div>
+
+    <!--/.Card-->
+
+    <!-- Central Modal Medium Success -->
+    <div class="modal fade" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-notify modal-success" role="document">
+        <!--Content-->
+        <div class="modal-content">
+          <!--Header-->
+          <div class="modal-header">
+            <p class="heading lead">Modal Success</p>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true" class="white-text">&times;</span>
+                                        </button>
+          </div>
+
+          <!--Body-->
+          <div class="modal-body">
+            <div class="text-center">
+              <i class="fa fa-check fa-4x mb-3 animated rotateIn"></i>
+              <div class="col-lg-12 col-md-12">
+                <input class="form-control" type="text" name="bookedFor" [(ngModel)]="payload.bookedFor" placeholder="bookedFor">
+
+              </div>
+              <div class="col-lg-12 col-md-12">
+                <input class="form-control" type="text" name="bookedBy" [(ngModel)]="payload.bookedBy" placeholder="bookedBy">
+
+              </div>
+
+            </div>
+          </div>
+
+          <!--Footer-->
+          <div class="modal-footer justify-content-center">
+            <a type="button" class="btn btn-primary-modal" (click)="roomBook()" class="close" data-dismiss="modal" aria-hidden="true">Confirm<i class="fa fa-diamond ml-1"></i></a>
+            <!--<a type="button" class="btn btn-outline-secondary-modal waves-effect" data-dismiss="modal">Cancel</a>-->
+          </div>
+        </div>
+        <!--/.Content-->
+      </div>
+    </div>
+    <!-- Central Modal Medium Success-->
+  </div>
+</div>
